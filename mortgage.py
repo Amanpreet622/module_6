@@ -108,3 +108,26 @@ class Mortgage:
     def __repr__(self):
         return (f"Mortgage({self.__loan_amount}, {self.__annual_interest_rate}, "
                 f"{self.__amortization}, {self.__frequency.name})")
+
+
+import unittest
+from mortgage import Mortgage
+from mortgage.payment_frequency import PaymentFrequency
+
+class TestMortgageAmortization(unittest.TestCase):
+    def test_set_amortization_invalid(self):
+        mortgage = Mortgage(100000, 0.05, 10, PaymentFrequency.MONTHLY)
+        with self.assertRaises(ValueError):
+            mortgage.amortization = 12  # invalid amortization
+
+    def test_set_amortization_valid_update(self):
+        mortgage = Mortgage(100000, 0.05, 10, PaymentFrequency.MONTHLY)
+        mortgage.amortization = 20
+        self.assertEqual(mortgage.amortization, 20)
+
+    def test_get_amortization(self):
+        mortgage = Mortgage(100000, 0.05, 15, PaymentFrequency.MONTHLY)
+        self.assertEqual(mortgage.amortization, 15)
+
+if __name__ == "__main__":
+    unittest.main()
