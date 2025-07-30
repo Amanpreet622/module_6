@@ -131,3 +131,26 @@ class TestMortgageAmortization(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+import unittest
+from mortgage import Mortgage
+from mortgage.payment_frequency import PaymentFrequency
+
+class TestMortgageFrequency(unittest.TestCase):
+    def test_set_frequency_invalid(self):
+        mortgage = Mortgage(100000, 0.05, 10, PaymentFrequency.MONTHLY)
+        with self.assertRaises(ValueError):
+            mortgage.frequency = "WEEKLY"  # invalid type, should raise ValueError
+
+    def test_set_frequency_valid_update(self):
+        mortgage = Mortgage(100000, 0.05, 10, PaymentFrequency.MONTHLY)
+        mortgage.frequency = PaymentFrequency.YEARLY
+        self.assertEqual(mortgage.frequency, PaymentFrequency.YEARLY)
+
+    def test_get_frequency(self):
+        mortgage = Mortgage(100000, 0.05, 10, PaymentFrequency.MONTHLY)
+        self.assertEqual(mortgage.frequency, PaymentFrequency.MONTHLY)
+
+if __name__ == "__main__":
+    unittest.main()
